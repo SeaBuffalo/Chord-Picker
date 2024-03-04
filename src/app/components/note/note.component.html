@@ -1,0 +1,10 @@
+<button (click)="selectNote()" [ngClass]="note.isNoteSelected ? 'selected' : ''"
+  class="note">
+  <!-- <div class="circle-inlay" *ngIf="note.hasInlay">inlay</div>
+  <div class="double-circle-inlay">
+    double inlay
+    <div class="circle-inlay"></div>
+    <div class="circle-inlay"></div>
+  </div> -->
+  <span>{{formatDisplayedLetter(note.noteLetter)}}</span>
+</button>

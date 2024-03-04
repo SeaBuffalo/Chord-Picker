@@ -1,0 +1,7 @@
+<section>
+  <!-- generate n rows (frets) of note components -->
+  <!-- <app-note *ngFor="let i of displayedFrets"></app-note> -->
+  <div *ngFor="let row of displayedNotes" class="row">
+    <app-note *ngFor="let n of row" [note]="n"></app-note>
+  </div>
+</section>
