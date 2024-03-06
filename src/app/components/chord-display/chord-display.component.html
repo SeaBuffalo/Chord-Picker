@@ -1,0 +1,8 @@
+<div class="chord-display">
+  <span class="chord">{{triad?.triadName || interval}}</span>
+  <div class="note-display">
+    <span class="note" *ngFor="let note of selectedNotes; let i = index">
+      <span *ngIf="i != 0">&nbsp;-&nbsp;</span>{{note?.noteString &&
+      sharedService.formatDisplayedNote(note.noteString)}}</span>
+  </div>
+</div>
