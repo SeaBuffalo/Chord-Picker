@@ -15,7 +15,7 @@ import { Nullable } from 'src/global';
 })
 export class ChordDisplayComponent {
   public selectedNotes: Note[] = [];
-  public triad: Nullable<Triad> = null;
+  public triad: string = '';
   public interval: string = '';
 
   constructor(
@@ -43,7 +43,11 @@ export class ChordDisplayComponent {
     );
 
     this.triadService.triadSubject.subscribe((triad: Nullable<Triad>) => {
-      this.triad = triad;
+      if (triad) {
+        this.triad = this.sharedService.formatDisplayedTriad(triad.triadName);
+      } else {
+        this.triad = '';
+      }
     });
   }
 }

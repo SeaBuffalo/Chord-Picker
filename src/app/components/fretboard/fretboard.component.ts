@@ -59,6 +59,7 @@ export class FretboardComponent {
   private determineIntervals(): void {
     this.intervals = [];
     this.intervalService.removeInterval();
+    this.triadService.removeTriad();
 
     if (this.selectedNotes.length > 1) {
       for (let i = 0; i < this.selectedNotes.length; i++) {

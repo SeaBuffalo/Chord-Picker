@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SelectedNotesService } from './selected-notes.service';
 import { IntervalService } from './interval.service';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +30,16 @@ export class SharedService {
       res = res.charAt(0) + res.slice(1).toLowerCase();
     }
     return res;
+  }
+
+  public formatDisplayedTriad(t: string): string {
+    let res = t.replace(/_/g, ' ').split(' ');
+    return (
+      this.formatDisplayedNote(res[0]) +
+      ' ' +
+      res[1].charAt(0) +
+      res[1].slice(1).toLowerCase()
+    );
   }
 
   public clearFretboard(): void {

@@ -45,7 +45,7 @@ export class Triad {
         if (checkIntArrayEqual(value, noteValues)) {
           this.type = key;
           this.triadName =
-            root.noteString + ' ' + key.charAt(0) + key.slice(1).toLowerCase();
+            root.noteString + '_' + key;
         }
       }
     }
