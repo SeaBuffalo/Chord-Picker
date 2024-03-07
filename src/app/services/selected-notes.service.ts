@@ -8,8 +8,14 @@ import { Note } from '../common/classes/Note';
 export class SelectedNotesService {
   public selectedNotes: Note[] = [];
   public selectedNotesSubject = new BehaviorSubject<Note[]>(this.selectedNotes);
+  public uniqueNotes: Note[] = [];
+  public uniqueNotesSubject = new BehaviorSubject<Note[]>(this.uniqueNotes);
 
-  constructor() {}
+  constructor() {
+    this.selectedNotesSubject.subscribe((notes: Note[]) => {
+      this.determineUniqueNotes();
+    });
+  }
 
   public selectNote(note: Note): void {
     const overridenNote = this.selectedNotes.find(
@@ -32,6 +38,21 @@ export class SelectedNotesService {
     );
     this.sortNotesByString();
     this.selectedNotesSubject.next(this.selectedNotes);
+  }
+
+  public determineUniqueNotes(): void {
+    const unique: Note[] = [];
+    for (let n of this.selectedNotes) {
+      if (
+        unique.find((u: Note) => {
+          u.noteString == n.noteString;
+        })
+      )
+        continue;
+      unique.push(n);
+    }
+    this.uniqueNotes = unique;
+    this.uniqueNotesSubject.next(this.uniqueNotes);
   }
 
   public getNextId(): string {

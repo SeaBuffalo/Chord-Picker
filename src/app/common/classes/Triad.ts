@@ -33,7 +33,7 @@ export class Triad {
     for (let i = 0; i < 3; i++) {
       //assume current iteration as possible chord root
       const root = this.notes[i];
-      const noteValues: any[] = [];
+      const noteValues: number[] = [];
       for (let j = 0; j < 3; j++) {
         //find all values relative to current root
         let n = this.notes[j].noteValue - root.noteValue;

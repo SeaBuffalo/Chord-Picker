@@ -42,6 +42,19 @@ export class SharedService {
     );
   }
 
+  public formatDisplayedChord(c: string): string {
+    const stringArr = c.replace(/_/g, ' ').split(' ');
+    let res = '';
+    stringArr.forEach((s: string, i: number) => {
+      if (i != 0) {
+        res += (s.charAt(0) + s.slice(1).toLowerCase() + " ");
+      } else {
+        res += (s + " ");
+      }
+    })
+    return res;
+  }
+
   public clearFretboard(): void {
     this.selectedNotesService.clearNotes();
     this.intervalService.removeInterval();

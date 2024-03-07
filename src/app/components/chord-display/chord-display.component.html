@@ -1,5 +1,5 @@
 <div class="chord-display">
-  <span class="chord">{{triad || interval}}</span>
+  <span class="chord">{{chord || triad || interval}}</span>
   <div class="note-display">
     <span class="note" *ngFor="let note of selectedNotes; let i = index">
       <span *ngIf="i != 0">&nbsp;-&nbsp;</span>{{note?.noteString &&

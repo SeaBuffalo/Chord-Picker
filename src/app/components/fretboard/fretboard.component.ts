@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { Chord } from 'src/app/common/classes/Chord';
 import { Interval } from 'src/app/common/classes/Interval';
 import { Note } from 'src/app/common/classes/Note';
 import { Triad } from 'src/app/common/classes/Triad';
 import { NoteLetter } from 'src/app/common/types/NoteLetter';
+import { ChordService } from 'src/app/services/chord.service';
 import { IntervalService } from 'src/app/services/interval.service';
 import { SelectedNotesService } from 'src/app/services/selected-notes.service';
 import { TriadService } from 'src/app/services/triad.service';
@@ -19,6 +21,7 @@ export class FretboardComponent {
   public tuning: NoteLetter[] = ['E', 'A', 'D', 'G', 'B', 'E'];
   public displayedNotes: Note[][] = [];
   public selectedNotes: Note[] = [];
+  public uniqueNotes: Note[] = [];
   public intervals: Interval[] = [];
   public root: Nullable<Note> = null;
   public chord: string = '';
@@ -26,14 +29,19 @@ export class FretboardComponent {
   constructor(
     private selectedNotesService: SelectedNotesService,
     private intervalService: IntervalService,
-    private triadService: TriadService
+    private triadService: TriadService,
+    private chordService: ChordService
   ) {
     this.selectedNotesService.selectedNotesSubject.subscribe(
       (notes: Note[]) => {
         this.selectedNotes = notes;
-        this.determineIntervals();
       }
     );
+
+    this.selectedNotesService.uniqueNotesSubject.subscribe((notes: Note[]) => {
+      this.uniqueNotes = notes;
+      this.determineHarmonies();
+    });
   }
 
   ngOnInit(): void {
@@ -56,29 +64,18 @@ export class FretboardComponent {
     }
   }
 
-  private determineIntervals(): void {
+  private determineHarmonies(): void {
     this.intervals = [];
     this.intervalService.removeInterval();
     this.triadService.removeTriad();
+    this.chordService.removeChord();
 
-    if (this.selectedNotes.length > 1) {
-      for (let i = 0; i < this.selectedNotes.length; i++) {
-        if (this.selectedNotes[i + 1]) {
-          this.intervals.push(
-            new Interval({
-              notes: [this.selectedNotes[i], this.selectedNotes[i + 1]],
-              root: this.selectedNotes[i],
-            })
-          );
-          this.intervalService.addInterval(
-            this.intervals[this.intervals.length - 1]
-          );
-        }
-      }
-    }
-
-    if (this.selectedNotes.length == 3) {
+    if (this.uniqueNotes.length > 3) {
+      this.determineChord();
+    } else if (this.uniqueNotes.length == 3) {
       this.determineTriad();
+    } else if (this.uniqueNotes.length == 2) {
+      this.determineInterval();
     }
   }
 
@@ -90,14 +87,33 @@ export class FretboardComponent {
     }
   }
 
-  private determineChord(): void {}
-
-  private determineRoot(): void {}
+  private determineInterval(): void {
+    for (let i = 0; i < this.uniqueNotes.length; i++) {
+      if (this.uniqueNotes[i + 1]) {
+        this.intervals.push(
+          new Interval({
+            notes: [this.uniqueNotes[i], this.uniqueNotes[i + 1]],
+            root: this.uniqueNotes[i],
+          })
+        );
+        this.intervalService.addInterval(
+          this.intervals[this.intervals.length - 1]
+        );
+      }
+    }
+  }
 
   private determineTriad(): void {
-    const triad = new Triad(this.selectedNotes as [Note, Note, Note]);
+    const triad = new Triad(this.uniqueNotes as [Note, Note, Note]);
     if (triad.triadName) {
       this.triadService.addTriad(triad);
+    }
+  }
+
+  private determineChord(): void {
+    const chord = new Chord(this.uniqueNotes);
+    if (chord.chordName) {
+      this.chordService.addChord(chord);
     }
   }
 }
