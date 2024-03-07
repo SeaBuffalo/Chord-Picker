@@ -1,27 +1,31 @@
-# AngularChordPicker
+# Chord Picker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+## Description
+Chord Picker is an Electron application built with Angular that allows users to determine the chords created when selecting notes on a fretboard.
 
-## Development server
+## Features
+- Interactive fretboard for selecting notes
+- Automatic chord detection based on selected notes
+- Display of chord names and finger positions
+- User-friendly interface
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
+1. Clone the repository: `git clone https://github.com/SeaBuffalo/Chord-Picker.git`
+2. Navigate to the project directory: `cd Chord-Picker`
+3. Install dependencies: `npm install`
 
-## Code scaffolding
+## Usage
+1. Start the application: `npm start`
+2. Use the fretboard to select notes by clicking on the desired positions
+3. The detected chords will be displayed in real-time
+4. Explore different combinations of notes to discover new chords
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Contributing
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.
 
-## Build
+## License
+This project is licensed under the [MIT License](LICENSE).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Acknowledgements
+- [Electron](https://www.electronjs.org/)
+- [Angular](https://angular.io/)
