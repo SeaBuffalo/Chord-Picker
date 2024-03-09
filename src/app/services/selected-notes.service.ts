@@ -43,13 +43,9 @@ export class SelectedNotesService {
   public determineUniqueNotes(): void {
     const unique: Note[] = [];
     for (let n of this.selectedNotes) {
-      if (
-        unique.find((u: Note) => {
-          u.noteString == n.noteString;
-        })
-      )
-        continue;
-      unique.push(n);
+      if (unique.every((u) => u.noteString != n.noteString)) {
+        unique.push(n);
+      }
     }
     this.uniqueNotes = unique;
     this.uniqueNotesSubject.next(this.uniqueNotes);
@@ -75,6 +71,7 @@ export class SelectedNotesService {
   }
 
   public clearNotes(): void {
+    this.selectedNotes.forEach((n) => n.deselectNoteExplicitly());
     this.selectedNotes = [];
     this.selectedNotesSubject.next(this.selectedNotes);
   }

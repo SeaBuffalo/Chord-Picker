@@ -57,7 +57,6 @@ export class Chord {
         if (n < 0) n = 12 - Math.abs(n);
         noteValues.push(n);
       }
-      console.log(noteValues);
       for (const [key, value] of Object.entries(BasicChords)) {
         if (checkIntArrayEqual(value, noteValues)) {
           this.type = key;

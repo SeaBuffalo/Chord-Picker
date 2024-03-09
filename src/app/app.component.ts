@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { SharedService } from './services/shared.service';
+import { SelectedNotesService } from './services/selected-notes.service';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +9,10 @@ import { SharedService } from './services/shared.service';
 })
 export class AppComponent {
   title = 'angular-chord-picker';
-  @ViewChild('fretboard') fretboard!: ElementRef;
 
-  constructor(
-    private renderer: Renderer2,
-    private sharedService: SharedService
-  ) {
-    // this.renderer.listen('window', 'click', (e: Event) => {
-    //   if (e.target !== this.fretboard.nativeElement) {
-    //     this.sharedService.clearFretboard();
-    //   }
-    // });
+  constructor(private selectedNotesService: SelectedNotesService) {}
+
+  public clearNotes(): void {
+    this.selectedNotesService.clearNotes();
   }
 }

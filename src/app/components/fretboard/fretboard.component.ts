@@ -79,14 +79,6 @@ export class FretboardComponent {
     }
   }
 
-  private clearNotes(): void {
-    for (let noteArr of this.displayedNotes) {
-      for (let note of noteArr) {
-        note.deselectNoteExplicitly();
-      }
-    }
-  }
-
   private determineInterval(): void {
     for (let i = 0; i < this.uniqueNotes.length; i++) {
       if (this.uniqueNotes[i + 1]) {
