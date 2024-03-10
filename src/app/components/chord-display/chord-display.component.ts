@@ -17,9 +17,12 @@ import { Nullable } from 'src/global';
 })
 export class ChordDisplayComponent {
   public selectedNotes: Note[] = [];
-  public triad: string = '';
   public interval: string = '';
-  public chord: string = '';
+  public triad: Nullable<Triad> = null;
+  public triadName: string = '';
+  public chord: Nullable<Chord> = null;
+  public chordName: string = '';
+  public inversion: string = '';
 
   constructor(
     private selectedNotesService: SelectedNotesService,
@@ -30,7 +33,7 @@ export class ChordDisplayComponent {
   ) {
     this.selectedNotesService.selectedNotesSubject.subscribe(
       (notes: Note[]) => {
-        this.selectedNotes = structuredClone(notes);
+        this.selectedNotes = notes;
       }
     );
 
@@ -47,18 +50,29 @@ export class ChordDisplayComponent {
     );
 
     this.triadService.triadSubject.subscribe((triad: Nullable<Triad>) => {
-      if (triad) {
-        this.triad = this.sharedService.formatDisplayedTriad(triad.triadName);
-      } else {
-        this.triad = '';
+      this.inversion = '';
+      this.triadName = '';
+      this.triad = triad;
+      if (this.triad) {
+        this.triadName = this.sharedService.formatDisplayedTriad(
+          this.triad.triadName
+        );
+        if (this.triad.inversion)
+          this.inversion = this.sharedService.formatDisplayedNote(this.triad.inversion.noteString);
       }
     });
 
     this.chordService.chordSubject.subscribe((chord: Nullable<Chord>) => {
-      if (chord) {
-        this.chord = this.sharedService.formatDisplayedChord(chord.chordName);
-      } else {
-        this.chord = '';
+      this.inversion = '';
+      this.chordName = '';
+      this.chord = chord;
+      if (this.chord) {
+        this.chordName = this.sharedService.formatDisplayedChord(
+          this.chord.chordName
+        );
+        if (this.chord.inversion) {
+          this.inversion = this.sharedService.formatDisplayedNote(this.chord.inversion.noteString);
+        }
       }
     });
   }

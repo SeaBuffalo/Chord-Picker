@@ -1,6 +1,6 @@
 import { Note } from './Note';
-// import { TriadTypeValues } from '../models/TriadTypeValues';
-import { checkIntArrayEqual } from '../utils/commonUtils';
+import { checkIntArrayEqual, getEnumKeyFromValue } from '../utils/commonUtils';
+import { Nullable } from 'src/global';
 const TriadTypeValues = {
   MAJOR: [0, 4, 7],
   MINOR: [0, 3, 7],
@@ -19,8 +19,8 @@ const TriadTypeValues = {
 export class Triad {
   public triadName: string = '';
   public notes: [Note, Note, Note];
-  public root: string = '';
   public type: string = '';
+  public inversion: Nullable<Note> = null;
 
   constructor(notes: [Note, Note, Note]) {
     this.notes = notes;
@@ -44,8 +44,10 @@ export class Triad {
       for (const [key, value] of Object.entries(TriadTypeValues)) {
         if (checkIntArrayEqual(value, noteValues)) {
           this.type = key;
-          this.triadName =
-            root.noteString + '_' + key;
+          this.triadName = root.noteString + '_' + key;
+          if (this.notes[0].noteString != root.noteString) {
+            this.inversion = this.notes[0];
+          }
         }
       }
     }

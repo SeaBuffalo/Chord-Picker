@@ -47,11 +47,11 @@ export class SharedService {
     let res = '';
     stringArr.forEach((s: string, i: number) => {
       if (i != 0) {
-        res += (s.charAt(0) + s.slice(1).toLowerCase() + " ");
+        res += s.charAt(0) + s.slice(1).toLowerCase() + ' ';
       } else {
-        res += (s + " ");
+        res += this.formatDisplayedNote(s) + ' ';
       }
-    })
+    });
     return res;
   }
 

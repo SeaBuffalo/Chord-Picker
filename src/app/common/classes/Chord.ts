@@ -1,3 +1,4 @@
+import { Nullable } from 'src/global';
 import { checkIntArrayEqual } from '../utils/commonUtils';
 import { Note } from './Note';
 
@@ -39,8 +40,8 @@ const BasicChords = {
 export class Chord {
   public chordName: string = '';
   public notes: Note[];
-  public root: string = '';
   public type: string = '';
+  public inversion: Nullable<Note> = null;
 
   constructor(notes: Note[]) {
     this.notes = notes;
@@ -49,7 +50,7 @@ export class Chord {
 
   private determineChord(): void {
     for (let i = 0; i < this.notes.length; i++) {
-      const root = this.notes[i];
+      const root: Note = this.notes[i];
       const noteValues: number[] = [];
 
       for (let j = 0; j < this.notes.length; j++) {
@@ -57,10 +58,14 @@ export class Chord {
         if (n < 0) n = 12 - Math.abs(n);
         noteValues.push(n);
       }
+
       for (const [key, value] of Object.entries(BasicChords)) {
         if (checkIntArrayEqual(value, noteValues)) {
           this.type = key;
           this.chordName = root.noteString + '_' + key;
+          if (this.notes[0].noteString != root.noteString) {
+            this.inversion = this.notes[0];
+          }
         }
       }
     }
